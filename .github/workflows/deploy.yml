@@ -1,0 +1,30 @@
+name: Deploy to pdprod.kz
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - name: Install dependencies & build
+      run: |
+        npm install
+        npm run build
+    - name: Check build output
+      run: ls -la dist
+    - name: Deploy via SSH
+      uses: easingthemes/ssh-deploy@v4
+      with:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        ARGS: "-rltgoDzvO --delete"
+        SOURCE: "dist/"
+        REMOTE_HOST: "82.200.245.164"
+        REMOTE_USER: "pdroot"
+        TARGET: "/var/www/html"
+    - name: Verify deployment
+      run: ssh pdroot@82.200.245.164 "ls -la /var/www/html"
