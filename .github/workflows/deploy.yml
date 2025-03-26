@@ -17,6 +17,8 @@ jobs:
         npm run build
     - name: Check build output
       run: ls -la dist
+    - name: Test SSH connection
+      run: ssh -v -o StrictHostKeyChecking=no pdroot@82.200.245.164 "echo SSH works!"
     - name: Deploy via SSH
       uses: easingthemes/ssh-deploy@v4
       with:
