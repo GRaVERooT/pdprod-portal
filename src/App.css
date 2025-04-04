@@ -12,6 +12,6 @@
 }
 
 .logo img {
-  max-width: 200px; /* Настрой размер логотипа под себя */
-  height: auto;
+  max-width: 300px; /* Настрой размер логотипа под себя */
+  height: auto 6%;
 }
